@@ -1,5 +1,5 @@
 /**
- * 1 - setting up the environment
+ * 1 - Setting up the environment
  * 
  */
 
@@ -167,6 +167,17 @@ const bushMaterial = new THREE.MeshStandardMaterial({
     roughnessMap: bushRoughness
 });
 
+// Green material
+
+const green = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+// Brown material
+
+const brown = new THREE.MeshBasicMaterial({ color: 0x964B00 });
+
+// Yellow brick material
+
+const yellowBrick = new THREE.MeshBasicMaterial({map: textureLoader.load('materials/Yellobrk.bmp')});
 
 // Load models
 // Car model
@@ -234,6 +245,25 @@ const bushGeometry2 = new THREE.BoxBufferGeometry(60, 6, 10);
 bushGeometry2.translate(-40, 3, -65);
 const bush2 = new THREE.Mesh( bushGeometry2, bushMaterial);
 scene.add(bush2);
+
+// Tree bark geometry
+const treeBarkGeometry = new THREE.CylinderBufferGeometry(3, 3, 50, 30);
+treeBarkGeometry.translate(-30, 25, -20);
+const treeBark = new THREE.Mesh(treeBarkGeometry, brown);
+scene.add(treeBark);
+
+// Tree leaves geometry
+const treeLeavesGeometry = new THREE.SphereBufferGeometry(15, 32, 16);
+treeLeavesGeometry.translate(-30, 50, -20);
+const treeLeaves = new THREE.Mesh(treeLeavesGeometry, green);
+scene.add(treeLeaves);
+
+// House geometry
+const houseGeometry = new THREE.BoxBufferGeometry(40, 40, 40);
+houseGeometry.translate(-60, 20, -100);
+const house = new THREE.Mesh(houseGeometry, yellowBrick);
+scene.add(house);
+
 
 /**
  *  4 - Camera setup and render function
