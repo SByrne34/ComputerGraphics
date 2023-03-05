@@ -1,3 +1,8 @@
+/**
+ * 1 - setting up the environment
+ * 
+ */
+
 // Create scene
 const scene = new THREE.Scene();
 
@@ -23,8 +28,13 @@ document.body.appendChild(renderer.domElement);
 const textureLoader = new THREE.TextureLoader();
 const loader = new THREE.GLTFLoader();
 
-// Load standard textures
+/**
+ * 2 - Loading textures and models
+ * 
+ */
+// Load standard textures all textures get repeat set for the ratio of their respective geometries.
 
+// Asphalt material
 const asphaltNormal = textureLoader.load("materials/Asphalt/asphalt_normal.jpg", function ( texture ) {
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -67,6 +77,8 @@ const asphaltMaterial = new THREE.MeshStandardMaterial({
     aoMap: asphaltAo,
     roughnessMap: asphaltRoughness
 });
+
+// Pavement material
 const pavementNormal = textureLoader.load("materials/Pavement/pavement_normal.jpg", function ( texture ) {
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -109,6 +121,8 @@ const pavementMaterial = new THREE.MeshStandardMaterial({
     aoMap: pavementAo,
     roughnessMap: pavementRoughness
 });
+
+// Bush material
 const bushNormal = textureLoader.load("materials/Bush/bush_normal.jpg", function ( texture ) {
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -155,10 +169,19 @@ const bushMaterial = new THREE.MeshStandardMaterial({
 
 
 // Load models
+// Car model
 const carModel = new THREE.Object3D();
 loader.load('/models/car.glb', function(gltf) {
     carModel.add(gltf.scene);
     scene.add(carModel);
+    });
+// Bicycle model
+loader.load('/models/bicycle.glb', function(gltf) {
+    gltf.scene.position.x = 17;
+    gltf.scene.position.y = 4;
+    gltf.scene.position.z = -40;
+    gltf.scene.rotateY(Math.PI * 0.5);
+    scene.add(gltf.scene);
     });
 
 // Add skybox
@@ -173,7 +196,6 @@ scene.background = new THREE.CubeTextureLoader()
 		'negz.' + skyboxFileType
 	] );
 
-
 // Define light
 const ambient = new THREE.AmbientLight(0x404040);
 scene.add(ambient);
@@ -181,26 +203,42 @@ scene.add(ambient);
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
 scene.add( directionalLight );
 
-
+/**
+ * 3 - Adding all parts to the scene
+ * 
+ */
 // Add geometries
+
+// Road geometry, the asphalt pathing
 const roadGeometry = new THREE.PlaneBufferGeometry(20, 160);
 roadGeometry.rotateX(-Math.PI * 0.5);
-roadGeometry.translate(0, 0, -80)
+roadGeometry.translate(0, 0, -80);
 const road = new THREE.Mesh( roadGeometry, asphaltMaterial );
+scene.add(road);
+
+// Sidewalk geometry, the paved sidewalk
 const sideWalkGeometry = new THREE.PlaneBufferGeometry(10, 160);
 sideWalkGeometry.rotateX(-Math.PI * 0.5);
 sideWalkGeometry.translate(15, 0, -80);
 const sideWalk = new THREE.Mesh(sideWalkGeometry, pavementMaterial);
+scene.add(sideWalk);
+
+// Bush geometry, the bush parallel to the road
 const bushGeometry = new THREE.BoxBufferGeometry(10, 6, 60);
 bushGeometry.translate(-15, 3, -30);
 const bush = new THREE.Mesh( bushGeometry, bushMaterial);
+scene.add(bush);
+
+// Bush geometry two, the bush perpendicular to the road
 const bushGeometry2 = new THREE.BoxBufferGeometry(60, 6, 10);
 bushGeometry2.translate(-40, 3, -65);
 const bush2 = new THREE.Mesh( bushGeometry2, bushMaterial);
 scene.add(bush2);
-scene.add(bush);
-scene.add( road );
-scene.add(sideWalk);
+
+/**
+ *  4 - Camera setup and render function
+ * 
+ */
 // Move camera from center
 camera.position.x = 2;  // Move right from center of scene
 camera.position.y = 1;  // Move up from center of scene
@@ -211,6 +249,8 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.autoRotate = true;
 controls.autoRotateSpeed = 2;
 controls.noKeys = true;
+
+// Clock for controlled animations
 const clock = new THREE.Clock();
 const render = function() {
     requestAnimationFrame(render);
