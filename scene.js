@@ -2,10 +2,10 @@
 const scene = new THREE.Scene();
 
 // Skybox filetype e.g. bmp, jpg, png
-const skyboxFileType = "bmp";
+const skyboxFileType = "png";
 
 // Skybox type; see skyboximages folder for types
-const skyboxType = "blue sky"
+const skyboxType = "grassy hills"
 
 // Create camera
 const camera = new THREE.PerspectiveCamera(
@@ -19,12 +19,19 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Define texture loader
+// Define loaders
 const textureLoader = new THREE.TextureLoader();
+const loader = new THREE.GLTFLoader();
 
 // Load standard textures
 
-const asphaltNormal = textureLoader.load("materials/Asphalt/asphalt_normal.jpg");
+const asphaltNormal = textureLoader.load("materials/Asphalt/asphalt_normal.jpg", function ( texture ) {
+
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 1, 16 );
+
+});
 const asphaltColor = textureLoader.load("materials/Asphalt/asphalt_color.jpg", function ( texture ) {
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -32,9 +39,27 @@ const asphaltColor = textureLoader.load("materials/Asphalt/asphalt_color.jpg", f
     texture.repeat.set( 1, 16 );
 
 });
-const asphaltDisplacement = textureLoader.load("materials/Asphalt/asphalt_displacement.jpg");
-const asphaltAo = textureLoader.load("materials/Asphalt/asphalt_ao.jpg");
-const asphaltRoughness = textureLoader.load("materials/Asphalt/asphalt_roughness.jpg");
+const asphaltDisplacement = textureLoader.load("materials/Asphalt/asphalt_displacement.jpg", function ( texture ) {
+
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 1, 16 );
+
+});
+const asphaltAo = textureLoader.load("materials/Asphalt/asphalt_ao.jpg", function ( texture ) {
+
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 1, 16 );
+
+});
+const asphaltRoughness = textureLoader.load("materials/Asphalt/asphalt_roughness.jpg", function ( texture ) {
+
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 1, 16 );
+
+});
 const asphaltMaterial = new THREE.MeshStandardMaterial({
     map: asphaltColor,
     normalMap: asphaltNormal,
@@ -42,7 +67,13 @@ const asphaltMaterial = new THREE.MeshStandardMaterial({
     aoMap: asphaltAo,
     roughnessMap: asphaltRoughness
 });
-const pavementNormal = textureLoader.load("materials/Pavement/pavement_normal.jpg");
+const pavementNormal = textureLoader.load("materials/Pavement/pavement_normal.jpg", function ( texture ) {
+
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 1, 8 );
+
+});
 const pavementColor = textureLoader.load("materials/Pavement/pavement_color.jpg", function ( texture ) {
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -50,9 +81,27 @@ const pavementColor = textureLoader.load("materials/Pavement/pavement_color.jpg"
     texture.repeat.set( 1, 8 );
 
 });
-const pavementDisplacement = textureLoader.load("materials/Pavement/pavement_displacement.jpg");
-const pavementAo = textureLoader.load("materials/Pavement/pavement_ao.jpg");
-const pavementRoughness = textureLoader.load("materials/Pavement/pavement_roughness.jpg");
+const pavementDisplacement = textureLoader.load("materials/Pavement/pavement_displacement.jpg", function ( texture ) {
+
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 1, 8 );
+
+});
+const pavementAo = textureLoader.load("materials/Pavement/pavement_ao.jpg", function ( texture ) {
+
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 1, 8 );
+
+});
+const pavementRoughness = textureLoader.load("materials/Pavement/pavement_roughness.jpg", function ( texture ) {
+
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 1, 8 );
+
+});
 const pavementMaterial = new THREE.MeshStandardMaterial({
     map: pavementColor,
     normalMap: pavementNormal,
@@ -60,7 +109,13 @@ const pavementMaterial = new THREE.MeshStandardMaterial({
     aoMap: pavementAo,
     roughnessMap: pavementRoughness
 });
-const bushNormal = textureLoader.load("materials/Bush/bush_normal.jpg");
+const bushNormal = textureLoader.load("materials/Bush/bush_normal.jpg", function ( texture ) {
+
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 1, 10 );
+
+});
 const bushColor = textureLoader.load("materials/Bush/bush_color.jpg", function ( texture ) {
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -68,9 +123,27 @@ const bushColor = textureLoader.load("materials/Bush/bush_color.jpg", function (
     texture.repeat.set( 1, 10 );
 
 });
-const bushDisplacement = textureLoader.load("materials/Bush/bush_displacement.jpg");
-const bushAo = textureLoader.load("materials/Bush/bush_ao.jpg");
-const bushRoughness = textureLoader.load("materials/Bush/bush_roughness.jpg");
+const bushDisplacement = textureLoader.load("materials/Bush/bush_displacement.jpg", function ( texture ) {
+
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 1, 10 );
+
+});
+const bushAo = textureLoader.load("materials/Bush/bush_ao.jpg", function ( texture ) {
+
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 1, 10 );
+
+});
+const bushRoughness = textureLoader.load("materials/Bush/bush_roughness.jpg", function ( texture ) {
+
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 1, 10 );
+
+});
 const bushMaterial = new THREE.MeshStandardMaterial({
     map: bushColor,
     normalMap: bushNormal,
@@ -79,6 +152,14 @@ const bushMaterial = new THREE.MeshStandardMaterial({
     aoMap: bushAo,
     roughnessMap: bushRoughness
 });
+
+
+// Load models
+
+const carModel = loader.load('/models/car.glb', function(gltf) {
+    scene.add(gltf.scene);
+    });
+
 
 // Add skybox
 scene.background = new THREE.CubeTextureLoader()
@@ -111,7 +192,7 @@ sideWalkGeometry.rotateX(-Math.PI * 0.5);
 sideWalkGeometry.translate(15, 0, -80);
 const sideWalk = new THREE.Mesh(sideWalkGeometry, pavementMaterial);
 const bushGeometry = new THREE.BoxBufferGeometry(10, 6, 60);
-bushGeometry.translate(-15, 3, -30)
+bushGeometry.translate(-15, 3, -30);
 const bush = new THREE.Mesh( bushGeometry, bushMaterial);
 const bushGeometry2 = new THREE.BoxBufferGeometry(60, 6, 10);
 bushGeometry2.translate(-40, 3, -65);
