@@ -113,6 +113,10 @@ const sideWalk = new THREE.Mesh(sideWalkGeometry, pavementMaterial);
 const bushGeometry = new THREE.BoxBufferGeometry(10, 6, 60);
 bushGeometry.translate(-15, 3, -30)
 const bush = new THREE.Mesh( bushGeometry, bushMaterial);
+const bushGeometry2 = new THREE.BoxBufferGeometry(60, 6, 10);
+bushGeometry2.translate(-40, 3, -65);
+const bush2 = new THREE.Mesh( bushGeometry2, bushMaterial);
+scene.add(bush2);
 scene.add(bush);
 scene.add( road );
 scene.add(sideWalk);
