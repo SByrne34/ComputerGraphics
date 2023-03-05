@@ -2,10 +2,10 @@
 const scene = new THREE.Scene();
 
 // Skybox filetype e.g. bmp, jpg, png
-const skyboxFileType = "png";
+const skyboxFileType = "bmp";
 
 // Skybox type; see skyboximages folder for types
-const skyboxType = "grassy hills"
+const skyboxType = "blue sky"
 
 // Create camera
 const camera = new THREE.PerspectiveCamera(
@@ -155,11 +155,11 @@ const bushMaterial = new THREE.MeshStandardMaterial({
 
 
 // Load models
-
-const carModel = loader.load('/models/car.glb', function(gltf) {
-    scene.add(gltf.scene);
+const carModel = new THREE.Object3D();
+loader.load('/models/car.glb', function(gltf) {
+    carModel.add(gltf.scene);
+    scene.add(carModel);
     });
-
 
 // Add skybox
 scene.background = new THREE.CubeTextureLoader()
@@ -211,10 +211,14 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.autoRotate = true;
 controls.autoRotateSpeed = 2;
 controls.noKeys = true;
-
+const clock = new THREE.Clock();
 const render = function() {
     requestAnimationFrame(render);
-
+    if (typeof carModel !== 'undefined') {
+        const delta = clock.getDelta();
+        carModel.translateOnAxis(carModel.worldToLocal(new THREE.Vector3(0,0,-160)),0.1 * delta);
+    }
+    
     controls.update();
     renderer.render(scene, camera);
 }
